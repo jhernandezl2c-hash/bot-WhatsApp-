@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -100,7 +99,7 @@
   </style>
 </head>
 <body>
-
+ 
 <div class="header">
   <div class="flag-bar"><div class="fb-r"></div><div class="fb-w"></div><div class="fb-b"></div></div>
   <div class="header-body">
@@ -112,9 +111,9 @@
   </div>
   <div class="flag-bar"><div class="fb-r"></div><div class="fb-w"></div><div class="fb-b"></div></div>
 </div>
-
+ 
 <div class="content">
-
+ 
   <div class="card">
     <div class="contacts-header">
       <div class="card-label" style="margin-bottom:0;flex:1;">Equipo</div>
@@ -129,12 +128,12 @@
       <span class="sel-count" id="selCount">0 seleccionados</span>
     </div>
   </div>
-
+ 
   <div class="card">
     <div class="card-label">Redactar aviso</div>
     <textarea id="msg" placeholder="Escribe el aviso... (opcional si envías solo imagen)" oninput="updatePreview()"></textarea>
     <div class="char-row"><span id="chars">0</span> caracteres</div>
-
+ 
     <div class="img-box">
       <div class="img-row">
         <span>🖼️</span>
@@ -145,25 +144,25 @@
       <div class="img-hint">Sube tu foto en <a href="https://imgbb.com" target="_blank">imgbb.com</a> y pega el link directo aquí.</div>
     </div>
   </div>
-
+ 
   <div class="card">
     <div class="card-label">Vista previa</div>
     <div class="preview-wrap">
       <div id="previewArea"><div class="bubble-empty">El mensaje aparecerá aquí...</div></div>
     </div>
   </div>
-
+ 
   <button class="btn-send" id="btnSend" onclick="send()">
     <span>📤</span> Enviar aviso al equipo
   </button>
-
+ 
   <div class="card" id="resultsCard" style="display:none;">
     <div class="card-label">Resultados</div>
     <div class="results" id="resultsList"></div>
   </div>
-
+ 
 </div>
-
+ 
 <div class="overlay" id="overlay" onclick="onOverlayClick(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -183,19 +182,19 @@
     </div>
   </div>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
   const PHONE_ID = '1023581090849606';
   const TOKEN    = 'EAAVWFpZCcbUQBRXX3JYBzEJCgacjdrGcZA8zVDjVGUGiLO7R4KVNVUCZCRhFZCPvWhFuHfCojZA7qpbexXFBgArBoMLVL9nBdZAaICtXaYKjn6viMfNKwh6hgGrl1y5bz7YwCmctAsQxQyDGBhu7lZC8OvLtIdogEYeQULiZCo1v6oJ9UlseJf8r7QwxaFTl2cKdF3K42rkssiaiaQeXITGEcY7ZCQPicQ6QSoLKeBVIaf8VZChLxDJ9NXZCy4comytvbXc7GnHk81cOLZApvNO3koISYQt3';
-  const API_URL  = 'https://graph.facebook.com/v19.0/' + PHONE_ID + '/messages';
-
+  const PROXY_URL = 'https://tommy-proxy.adrianhdz.workers.dev';
+ 
   let contacts = JSON.parse(localStorage.getItem('tommy_contacts') || '[]');
   let selected  = new Set();
-
+ 
   function save() { localStorage.setItem('tommy_contacts', JSON.stringify(contacts)); }
-
+ 
   function render() {
     const grid = document.getElementById('contactsGrid');
     if (!contacts.length) {
@@ -215,15 +214,15 @@
     `).join('');
     document.getElementById('selCount').textContent = selected.size + ' seleccionados';
   }
-
+ 
   function toggle(i) { selected.has(i) ? selected.delete(i) : selected.add(i); render(); }
-
+ 
   function toggleAll() {
     if (selected.size === contacts.length) selected.clear();
     else contacts.forEach((_, i) => selected.add(i));
     render();
   }
-
+ 
   function del(i) {
     contacts.splice(i, 1);
     const ns = new Set();
@@ -231,7 +230,7 @@
     selected = ns;
     save(); render();
   }
-
+ 
   function openSheet() {
     document.getElementById('overlay').classList.add('on');
     setTimeout(() => document.getElementById('iNombre').focus(), 300);
@@ -242,7 +241,7 @@
     document.getElementById('iNumero').value = '';
   }
   function onOverlayClick(e) { if (e.target === e.currentTarget) closeSheet(); }
-
+ 
   function addContact() {
     const nombre = document.getElementById('iNombre').value.trim();
     const numero = document.getElementById('iNumero').value.trim().replace(/\D/g, '');
@@ -252,7 +251,7 @@
     save(); render(); closeSheet();
     toast('✅ Contacto agregado');
   }
-
+ 
   function onImgInput() {
     const url = document.getElementById('imgUrl').value.trim();
     const thumb = document.getElementById('imgThumb');
@@ -265,14 +264,14 @@
     }
     updatePreview();
   }
-
+ 
   function clearImg() {
     document.getElementById('imgUrl').value = '';
     document.getElementById('imgThumb').style.display = 'none';
     document.getElementById('imgPreview').src = '';
     updatePreview();
   }
-
+ 
   function updatePreview() {
     const txt = document.getElementById('msg').value;
     const img = document.getElementById('imgUrl').value.trim();
@@ -288,31 +287,31 @@
     if (txt.trim()) content += txt.replace(/</g, '&lt;');
     area.innerHTML = '<div class="bubble">' + content + '<div class="bubble-time">' + now + ' ✓✓</div></div>';
   }
-
+ 
   async function send() {
     const mensaje = document.getElementById('msg').value.trim();
     const imgUrl  = document.getElementById('imgUrl').value.trim();
     if (!mensaje && !imgUrl) { toast('⚠️ Escribe un mensaje o agrega una imagen'); return; }
     if (!selected.size) { toast('⚠️ Selecciona al menos un contacto'); return; }
-
+ 
     const targets = [...selected].map(i => contacts[i]).filter(c => c.numero);
     const btn = document.getElementById('btnSend');
     btn.disabled = true;
     btn.innerHTML = '<span>⏳</span> Enviando...';
-
+ 
     const resultados = [];
     for (const c of targets) {
       try {
         let body;
         if (imgUrl) {
-          body = { messaging_product: 'whatsapp', to: c.numero, type: 'image', image: { link: imgUrl } };
+          body = { to: c.numero, type: 'image', image: { link: imgUrl }, token: TOKEN, phone_id: PHONE_ID };
           if (mensaje) body.image.caption = mensaje;
         } else {
-          body = { messaging_product: 'whatsapp', to: c.numero, type: 'text', text: { body: mensaje } };
+          body = { to: c.numero, type: 'text', text: { body: mensaje }, token: TOKEN, phone_id: PHONE_ID };
         }
-        const res  = await fetch(API_URL, {
+        const res  = await fetch(PROXY_URL, {
           method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
         const data = await res.json();
@@ -322,10 +321,32 @@
       }
       await new Promise(r => setTimeout(r, 350));
     }
-
+ 
     btn.disabled = false;
     btn.innerHTML = '<span>📤</span> Enviar aviso al equipo';
-
+ 
     const card = document.getElementById('resultsCard');
     card.style.display = 'block';
-    docume
+    document.getElementById('resultsList').innerHTML = resultados.map(r =>
+      '<div class="r-item ' + (r.ok ? 'r-ok' : 'r-fail') + '">' +
+      '<span>' + (r.ok ? '✅' : '❌') + '</span>' +
+      '<span class="r-name">' + r.nombre + '</span>' +
+      '<span class="r-msg">' + (r.ok ? 'Enviado' : r.err) + '</span></div>'
+    ).join('');
+    card.scrollIntoView({ behavior: 'smooth' });
+    toast(resultados.filter(r => r.ok).length + '/' + resultados.length + ' mensajes enviados');
+  }
+ 
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+ 
+  render();
+</script>
+</body>
+</html>
