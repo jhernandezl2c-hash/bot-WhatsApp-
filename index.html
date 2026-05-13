@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -187,7 +188,7 @@
 
 <script>
   const PHONE_ID = '1023581090849606';
-  const TOKEN    = 'EAAVWFpZCcbUQBRW9KJ1iVW7m0WZBIzITYgle0bg2xzbSWqUpZCKfSm8mnwtXGVFiRerwLTJQQ3qv0msWokktj4BXe9oLbYwiVZBaMSv0ibZBrGM2azTgR9hMj3brC6oOZAjagzZCNarY6k8gFsuC6MCLhFVZBDGzPTqqrOoxw1uObgf5oMlYDKapuc5IwOOabvxw9zRIgzJZCbayu9pEAzs15uZAjZBwdQ4GX7Oy3QE4hGXc1TZAG7jQZBBYIlKAJAm3p5qS7O76Dge0bQUGHZCFskFChrp5j6';
+  const TOKEN    = 'EAAVWFpZCcbUQBRXX3JYBzEJCgacjdrGcZA8zVDjVGUGiLO7R4KVNVUCZCRhFZCPvWhFuHfCojZA7qpbexXFBgArBoMLVL9nBdZAaICtXaYKjn6viMfNKwh6hgGrl1y5bz7YwCmctAsQxQyDGBhu7lZC8OvLtIdogEYeQULiZCo1v6oJ9UlseJf8r7QwxaFTl2cKdF3K42rkssiaiaQeXITGEcY7ZCQPicQ6QSoLKeBVIaf8VZChLxDJ9NXZCy4comytvbXc7GnHk81cOLZApvNO3koISYQt3';
   const API_URL  = 'https://graph.facebook.com/v19.0/' + PHONE_ID + '/messages';
 
   let contacts = JSON.parse(localStorage.getItem('tommy_contacts') || '[]');
@@ -327,26 +328,4 @@
 
     const card = document.getElementById('resultsCard');
     card.style.display = 'block';
-    document.getElementById('resultsList').innerHTML = resultados.map(r =>
-      '<div class="r-item ' + (r.ok ? 'r-ok' : 'r-fail') + '">' +
-      '<span>' + (r.ok ? '✅' : '❌') + '</span>' +
-      '<span class="r-name">' + r.nombre + '</span>' +
-      '<span class="r-msg">' + (r.ok ? 'Enviado' : r.err) + '</span></div>'
-    ).join('');
-    card.scrollIntoView({ behavior: 'smooth' });
-    toast(resultados.filter(r => r.ok).length + '/' + resultados.length + ' mensajes enviados');
-  }
-
-  let toastTimer;
-  function toast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-  }
-
-  render();
-</script>
-</body>
-</html>
+    docume
