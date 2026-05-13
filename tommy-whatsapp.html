@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tommy Hilfiger — Avisos Equipo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #cc0001; --navy: #001f5b; --white: #ffffff;
+      --offwhite: #f5f4f0; --border: #d8d5cc; --text: #1a1a2e;
+      --muted: #8a8880; --card: #ffffff; --green: #25d366; --radius: 12px;
+    }
+    body { background: var(--offwhite); color: var(--text); font-family: 'Barlow', sans-serif; min-height: 100vh; padding-bottom: 40px; }
+    .header { background: var(--navy); padding: 0 20px; display: flex; flex-direction: column; align-items: center; }
+    .flag-bar { width: 100%; height: 5px; display: flex; }
+    .flag-bar div { flex: 1; }
+    .fb-r { background: var(--red); } .fb-w { background: var(--white); } .fb-b { background: #0033a0; }
+    .header-body { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 16px 0 14px; }
+    .logo-main { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.3rem; color: var(--white); letter-spacing: 0.04em; line-height: 1; }
+    .logo-main span { color: var(--red); }
+    .logo-sub { font-size: 0.65rem; color: rgba(255,255,255,0.45); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; margin-top: 2px; }
+    .status-pill { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 5px 12px; font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .content { padding: 18px 16px; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: 0 2px 8px rgba(0,31,91,0.06); animation: fadeUp 0.35s ease both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.1s} .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.2s} .card:nth-child(5){animation-delay:.25s}
+    .card-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--navy); margin-bottom: 13px; display: flex; align-items: center; gap: 7px; }
+    .card-label::after { content:''; flex:1; height:1px; background:var(--border); }
+    .contacts-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+    .btn-add { background: var(--navy); border: none; color: var(--white); border-radius: 8px; padding: 7px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; font-family: 'Barlow', sans-serif; transition: all 0.15s; }
+    .btn-add:hover { background: #002d8a; }
+    .contacts-grid { display: flex; flex-direction: column; gap: 6px; }
+    .contact-chip { display: flex; align-items: center; gap: 10px; padding: 11px 13px; border-radius: 9px; border: 1.5px solid var(--border); background: var(--offwhite); cursor: pointer; transition: all 0.15s; user-select: none; }
+    .contact-chip:hover { border-color: var(--navy); background: #f0f2f8; }
+    .contact-chip.on { border-color: var(--navy); background: #eef0f8; }
+    .chip-check { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; flex-shrink: 0; transition: all 0.15s; }
+    .contact-chip.on .chip-check { background: var(--navy); border-color: var(--navy); }
+    .chip-info { flex: 1; min-width: 0; }
+    .chip-name { font-size: 0.87rem; font-weight: 600; }
+    .chip-num { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+    .chip-del { background: none; border: none; color: var(--border); cursor: pointer; padding: 4px 6px; border-radius: 5px; font-size: 0.85rem; opacity: 0; transition: all 0.15s; }
+    .contact-chip:hover .chip-del { opacity: 1; }
+    .chip-del:hover { color: var(--red); }
+    .empty-contacts { text-align: center; padding: 22px; color: var(--muted); font-size: 0.82rem; border: 1.5px dashed var(--border); border-radius: 9px; line-height: 1.6; }
+    .select-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .btn-link { background: none; border: none; color: var(--navy); font-size: 0.78rem; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; padding: 2px 4px; text-decoration: underline; text-underline-offset: 3px; }
+    .sel-count { font-size: 0.74rem; color: var(--muted); }
+    textarea { width: 100%; background: var(--offwhite); border: 1.5px solid var(--border); border-radius: 9px; padding: 13px 14px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.9rem; line-height: 1.6; resize: none; height: 110px; transition: border-color 0.2s; }
+    textarea:focus { outline: none; border-color: var(--navy); }
+    .char-row { text-align: right; font-size: 0.7rem; color: var(--muted); margin-top: 5px; }
+    .img-box { margin-top: 12px; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--offwhite); transition: border-color 0.2s; }
+    .img-box:focus-within { border-color: var(--navy); }
+    .img-row { display: flex; align-items: center; gap: 8px; padding: 10px 13px; }
+    .img-row input { flex: 1; background: none; border: none; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.88rem; }
+    .img-row input:focus { outline: none; }
+    .img-row input::placeholder { color: var(--muted); }
+    .btn-clr { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; padding: 2px 6px; border-radius: 5px; }
+    .btn-clr:hover { color: var(--red); }
+    .img-hint { padding: 0 13px 10px; font-size: 0.68rem; color: var(--muted); line-height: 1.5; }
+    .img-hint a { color: var(--navy); font-weight: 600; }
+    .img-thumb { margin: 0 13px 12px; border-radius: 7px; overflow: hidden; border: 1px solid var(--border); display: none; }
+    .img-thumb img { width: 100%; height: 150px; object-fit: cover; display: block; }
+    .preview-wrap { background: #dfe5ea; border-radius: 10px; padding: 16px; min-height: 70px; }
+    .bubble { background: #dcf8c6; border-radius: 12px 12px 4px 12px; padding: 10px 14px; max-width: 85%; margin-left: auto; font-size: 0.86rem; line-height: 1.6; color: #111; white-space: pre-wrap; word-break: break-word; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+    .bubble img { width: 100%; border-radius: 7px; margin-bottom: 6px; display: block; max-height: 140px; object-fit: cover; }
+    .bubble-time { text-align: right; font-size: 0.63rem; color: rgba(0,0,0,0.35); margin-top: 3px; }
+    .bubble-empty { color: var(--muted); font-size: 0.82rem; font-style: italic; text-align: center; padding: 8px 0; }
+    .btn-send { width: 100%; background: var(--navy); border: none; color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s; box-shadow: 0 4px 16px rgba(0,31,91,0.25); position: relative; overflow: hidden; }
+    .btn-send::before { content: ''; position: absolute; left: 0; top: 0; width: 5px; height: 100%; background: var(--red); }
+    .btn-send:hover { background: #002d8a; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,31,91,0.3); }
+    .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .results { display: flex; flex-direction: column; gap: 7px; }
+    .r-item { display: flex; align-items: center; gap: 10px; padding: 10px 13px; border-radius: 8px; font-size: 0.83rem; animation: fadeUp 0.3s ease both; }
+    .r-ok { background: #f0faf4; border: 1px solid #b2dfcc; }
+    .r-fail { background: #fff5f5; border: 1px solid #ffc0c0; }
+    .r-name { flex: 1; font-weight: 600; }
+    .r-msg { font-size: 0.72rem; color: var(--muted); }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,15,40,0.65); z-index: 200; align-items: flex-end; justify-content: center; }
+    .overlay.on { display: flex; }
+    .sheet { background: var(--white); border-radius: 20px 20px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 480px; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    .sheet-handle { width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+    .sheet-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 18px; }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 0.68rem; color: var(--muted); margin-bottom: 5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .field input { width: 100%; background: var(--offwhite); border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 13px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.9rem; }
+    .field input:focus { outline: none; border-color: var(--navy); }
+    .hint { font-size: 0.7rem; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+    .sheet-btns { display: flex; gap: 10px; }
+    .btn-ghost { flex: 1; background: var(--offwhite); border: 1.5px solid var(--border); color: var(--muted); border-radius: 9px; padding: 12px; cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 0.88rem; }
+    .btn-confirm { flex: 2; background: var(--navy); border: none; color: var(--white); border-radius: 9px; padding: 12px; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.88rem; }
+    .btn-confirm:hover { background: #002d8a; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: white; border-radius: 30px; padding: 10px 20px; font-size: 0.82rem; font-weight: 500; box-shadow: 0 6px 24px rgba(0,31,91,0.35); transition: transform 0.3s ease; white-space: nowrap; z-index: 300; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="flag-bar"><div class="fb-r"></div><div class="fb-w"></div><div class="fb-b"></div></div>
+  <div class="header-body">
+    <div>
+      <div class="logo-main">TOMMY <span>●</span> HILFIGER</div>
+      <div class="logo-sub">Avisos internos · Equipo</div>
+    </div>
+    <div class="status-pill"><div class="dot"></div> WhatsApp</div>
+  </div>
+  <div class="flag-bar"><div class="fb-r"></div><div class="fb-w"></div><div class="fb-b"></div></div>
+</div>
+
+<div class="content">
+
+  <div class="card">
+    <div class="contacts-header">
+      <div class="card-label" style="margin-bottom:0;flex:1;">Equipo</div>
+      <button class="btn-add" onclick="openSheet()">+ Agregar</button>
+    </div>
+    <div style="height:12px;"></div>
+    <div class="contacts-grid" id="contactsGrid">
+      <div class="empty-contacts">Sin contactos aún.<br>Toca <strong>+ Agregar</strong> para comenzar.</div>
+    </div>
+    <div class="select-row">
+      <button class="btn-link" onclick="toggleAll()">Seleccionar todos</button>
+      <span class="sel-count" id="selCount">0 seleccionados</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Redactar aviso</div>
+    <textarea id="msg" placeholder="Escribe el aviso... (opcional si envías solo imagen)" oninput="updatePreview()"></textarea>
+    <div class="char-row"><span id="chars">0</span> caracteres</div>
+
+    <div class="img-box">
+      <div class="img-row">
+        <span>🖼️</span>
+        <input type="url" id="imgUrl" placeholder="Pega el link de imagen (opcional)" oninput="onImgInput()" />
+        <button class="btn-clr" onclick="clearImg()">✕</button>
+      </div>
+      <div class="img-thumb" id="imgThumb"><img id="imgPreview" src="" alt="preview"/></div>
+      <div class="img-hint">Sube tu foto en <a href="https://imgbb.com" target="_blank">imgbb.com</a> y pega el link directo aquí.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Vista previa</div>
+    <div class="preview-wrap">
+      <div id="previewArea"><div class="bubble-empty">El mensaje aparecerá aquí...</div></div>
+    </div>
+  </div>
+
+  <button class="btn-send" id="btnSend" onclick="send()">
+    <span>📤</span> Enviar aviso al equipo
+  </button>
+
+  <div class="card" id="resultsCard" style="display:none;">
+    <div class="card-label">Resultados</div>
+    <div class="results" id="resultsList"></div>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlay" onclick="onOverlayClick(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Agregar miembro del equipo</div>
+    <div class="field">
+      <label>Nombre</label>
+      <input type="text" id="iNombre" placeholder="Ej: Carlos Méndez" />
+    </div>
+    <div class="field">
+      <label>Número de WhatsApp</label>
+      <input type="tel" id="iNumero" placeholder="Ej: 5215512345678" />
+    </div>
+    <p class="hint">Incluye código de país sin + · México: 521XXXXXXXXXX · España: 34XXXXXXXXX</p>
+    <div class="sheet-btns">
+      <button class="btn-ghost" onclick="closeSheet()">Cancelar</button>
+      <button class="btn-confirm" onclick="addContact()">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const PHONE_ID = '1023581090849606';
+  const TOKEN    = 'EAAVWFpZCcbUQBRW9KJ1iVW7m0WZBIzITYgle0bg2xzbSWqUpZCKfSm8mnwtXGVFiRerwLTJQQ3qv0msWokktj4BXe9oLbYwiVZBaMSv0ibZBrGM2azTgR9hMj3brC6oOZAjagzZCNarY6k8gFsuC6MCLhFVZBDGzPTqqrOoxw1uObgf5oMlYDKapuc5IwOOabvxw9zRIgzJZCbayu9pEAzs15uZAjZBwdQ4GX7Oy3QE4hGXc1TZAG7jQZBBYIlKAJAm3p5qS7O76Dge0bQUGHZCFskFChrp5j6';
+  const API_URL  = 'https://graph.facebook.com/v19.0/' + PHONE_ID + '/messages';
+
+  let contacts = JSON.parse(localStorage.getItem('tommy_contacts') || '[]');
+  let selected  = new Set();
+
+  function save() { localStorage.setItem('tommy_contacts', JSON.stringify(contacts)); }
+
+  function render() {
+    const grid = document.getElementById('contactsGrid');
+    if (!contacts.length) {
+      grid.innerHTML = '<div class="empty-contacts">Sin contactos aún.<br>Toca <strong>+ Agregar</strong> para comenzar.</div>';
+      document.getElementById('selCount').textContent = '0 seleccionados';
+      return;
+    }
+    grid.innerHTML = contacts.map((c, i) => `
+      <div class="contact-chip ${selected.has(i) ? 'on' : ''}" onclick="toggle(${i})">
+        <div class="chip-check">${selected.has(i) ? '✓' : ''}</div>
+        <div class="chip-info">
+          <div class="chip-name">${c.nombre}</div>
+          <div class="chip-num">${c.numero}</div>
+        </div>
+        <button class="chip-del" onclick="event.stopPropagation();del(${i})">✕</button>
+      </div>
+    `).join('');
+    document.getElementById('selCount').textContent = selected.size + ' seleccionados';
+  }
+
+  function toggle(i) { selected.has(i) ? selected.delete(i) : selected.add(i); render(); }
+
+  function toggleAll() {
+    if (selected.size === contacts.length) selected.clear();
+    else contacts.forEach((_, i) => selected.add(i));
+    render();
+  }
+
+  function del(i) {
+    contacts.splice(i, 1);
+    const ns = new Set();
+    selected.forEach(s => { if (s < i) ns.add(s); else if (s > i) ns.add(s - 1); });
+    selected = ns;
+    save(); render();
+  }
+
+  function openSheet() {
+    document.getElementById('overlay').classList.add('on');
+    setTimeout(() => document.getElementById('iNombre').focus(), 300);
+  }
+  function closeSheet() {
+    document.getElementById('overlay').classList.remove('on');
+    document.getElementById('iNombre').value = '';
+    document.getElementById('iNumero').value = '';
+  }
+  function onOverlayClick(e) { if (e.target === e.currentTarget) closeSheet(); }
+
+  function addContact() {
+    const nombre = document.getElementById('iNombre').value.trim();
+    const numero = document.getElementById('iNumero').value.trim().replace(/\D/g, '');
+    if (!nombre) { toast('⚠️ Escribe un nombre'); return; }
+    if (!numero || numero.length < 10) { toast('⚠️ Número inválido'); return; }
+    contacts.push({ nombre, numero });
+    save(); render(); closeSheet();
+    toast('✅ Contacto agregado');
+  }
+
+  function onImgInput() {
+    const url = document.getElementById('imgUrl').value.trim();
+    const thumb = document.getElementById('imgThumb');
+    const preview = document.getElementById('imgPreview');
+    if (url.startsWith('http')) {
+      preview.src = url;
+      thumb.style.display = 'block';
+    } else {
+      thumb.style.display = 'none';
+    }
+    updatePreview();
+  }
+
+  function clearImg() {
+    document.getElementById('imgUrl').value = '';
+    document.getElementById('imgThumb').style.display = 'none';
+    document.getElementById('imgPreview').src = '';
+    updatePreview();
+  }
+
+  function updatePreview() {
+    const txt = document.getElementById('msg').value;
+    const img = document.getElementById('imgUrl').value.trim();
+    document.getElementById('chars').textContent = txt.length;
+    const area = document.getElementById('previewArea');
+    const now = new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+    if (!txt.trim() && !img) {
+      area.innerHTML = '<div class="bubble-empty">El mensaje aparecerá aquí...</div>';
+      return;
+    }
+    let content = '';
+    if (img.startsWith('http')) content += '<img src="' + img + '" onerror="this.style.display=\'none\'"/>';
+    if (txt.trim()) content += txt.replace(/</g, '&lt;');
+    area.innerHTML = '<div class="bubble">' + content + '<div class="bubble-time">' + now + ' ✓✓</div></div>';
+  }
+
+  async function send() {
+    const mensaje = document.getElementById('msg').value.trim();
+    const imgUrl  = document.getElementById('imgUrl').value.trim();
+    if (!mensaje && !imgUrl) { toast('⚠️ Escribe un mensaje o agrega una imagen'); return; }
+    if (!selected.size) { toast('⚠️ Selecciona al menos un contacto'); return; }
+
+    const targets = [...selected].map(i => contacts[i]).filter(c => c.numero);
+    const btn = document.getElementById('btnSend');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> Enviando...';
+
+    const resultados = [];
+    for (const c of targets) {
+      try {
+        let body;
+        if (imgUrl) {
+          body = { messaging_product: 'whatsapp', to: c.numero, type: 'image', image: { link: imgUrl } };
+          if (mensaje) body.image.caption = mensaje;
+        } else {
+          body = { messaging_product: 'whatsapp', to: c.numero, type: 'text', text: { body: mensaje } };
+        }
+        const res  = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        resultados.push({ nombre: c.nombre, ok: res.ok, err: (data.error && data.error.message) || '' });
+      } catch (e) {
+        resultados.push({ nombre: c.nombre, ok: false, err: e.message });
+      }
+      await new Promise(r => setTimeout(r, 350));
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<span>📤</span> Enviar aviso al equipo';
+
+    const card = document.getElementById('resultsCard');
+    card.style.display = 'block';
+    document.getElementById('resultsList').innerHTML = resultados.map(r =>
+      '<div class="r-item ' + (r.ok ? 'r-ok' : 'r-fail') + '">' +
+      '<span>' + (r.ok ? '✅' : '❌') + '</span>' +
+      '<span class="r-name">' + r.nombre + '</span>' +
+      '<span class="r-msg">' + (r.ok ? 'Enviado' : r.err) + '</span></div>'
+    ).join('');
+    card.scrollIntoView({ behavior: 'smooth' });
+    toast(resultados.filter(r => r.ok).length + '/' + resultados.length + ' mensajes enviados');
+  }
+
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+
+  render();
+</script>
+</body>
+</html>
